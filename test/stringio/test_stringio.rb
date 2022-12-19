@@ -852,6 +852,15 @@ class TestStringIO < Test::Unit::TestCase
     assert_equal Encoding::ASCII_8BIT, s.external_encoding, bug_11945
   end
 
+  def test_binmode?
+    s = StringIO.new
+    s.set_encoding('utf-8')
+    assert_equal(false, s.binmode?)
+
+    s.binmode
+    assert_equal(true, s.binmode?)
+  end
+
   def test_new_block_warning
     assert_warn(/does not take block/) do
       StringIO.new {}

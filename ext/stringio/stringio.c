@@ -762,6 +762,22 @@ strio_binmode(VALUE self)
     return self;
 }
 
+/*
+ *  call-seq:
+ *    binmode? -> true or false
+ *
+ *  Returns +true+ if the stream is on binary mode, +false+ otherwise.
+ *  See {Data Mode}[rdoc-ref:File@Data+Mode].
+ *
+ */
+static VALUE
+strio_binmode_p(VALUE self)
+{
+    struct StringIO *ptr = StringIO(self);
+    if (ptr->enc == rb_ascii8bit_encoding()) return Qtrue;
+    return Qfalse;
+}
+
 #define strio_fcntl strio_unimpl
 
 #define strio_flush strio_self
@@ -1888,6 +1904,7 @@ Init_stringio(void)
 
     /* call-seq: strio.binmode -> true */
     rb_define_method(StringIO, "binmode", strio_binmode, 0);
+    rb_define_method(StringIO, "binmode?", strio_binmode_p, 0);
     rb_define_method(StringIO, "close", strio_close, 0);
     rb_define_method(StringIO, "close_read", strio_close_read, 0);
     rb_define_method(StringIO, "close_write", strio_close_write, 0);
