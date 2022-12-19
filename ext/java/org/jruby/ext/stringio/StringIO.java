@@ -221,6 +221,12 @@ public class StringIO extends RubyObject implements EncodingCapable, DataType {
         return this;
     }
 
+    // MRI: strio_binmode_p
+    @JRubyMethod(name = "binmode?")
+    public IRubyObject op_binmode(ThreadContext context) {
+        return RubyBoolean.newBoolean(context, ptr.enc == EncodingUtils.ascii8bitEncoding(context.runtime));
+    }
+
     @JRubyMethod(name = "flush")
     public IRubyObject strio_self() {
         return this;
